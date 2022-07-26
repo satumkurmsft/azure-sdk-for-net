@@ -65,6 +65,11 @@ namespace Azure.Search.Documents
         /// will be used if no value is provided.
         /// </summary>
         public ObjectSerializer Serializer { get; set; }
+        
+        /// <summary>
+        /// Gets or Sets the token Scope.
+        /// </summary>
+        public string AuthenticationScope { get; set; } = "https://search.azure.com/.default";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SearchClientOptions"/>
@@ -122,7 +127,7 @@ namespace Azure.Search.Documents
             Debug.Assert(credential != null);
             return HttpPipelineBuilder.Build(
                 options: this,
-                perCallPolicies: new[] { new BearerTokenAuthenticationPolicy(credential, Constants.CredentialScopeName) },
+                perCallPolicies: new[] { new BearerTokenAuthenticationPolicy(credential, AuthenticationScope) },
                 perRetryPolicies: Array.Empty<HttpPipelinePolicy>(),
                 responseClassifier: null);
         }
